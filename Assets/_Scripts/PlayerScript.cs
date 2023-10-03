@@ -78,14 +78,14 @@ public class PlayerScript : MonoBehaviour
         float anglesX = angles.x;
         if (anglesX > 180 && anglesX < 360-viewAngleClamp)
         {
-            anglesX = 360-viewAngleClamp;
+            anglesX = 360-viewAngleClamp; //Used to limit the angle/amount of rotation to the clamp
         }
         else if (anglesX < 180 && anglesX > viewAngleClamp)
         {
             anglesX = viewAngleClamp;
         }
 
-        camFollowTarget.localEulerAngles = new Vector3(anglesX, 0, 0);
+        camFollowTarget.localEulerAngles = new Vector3(anglesX, 0, 0); //Sets the rotation of the camera to limit rotation
     }
 
     void Update()
@@ -93,10 +93,10 @@ public class PlayerScript : MonoBehaviour
         moveVector = pActions.Player.Movement.ReadValue<Vector2>(); //Gets the movement data from the Input system
         transform.Translate(Time.deltaTime * speed * moveVector.y * Vector3.forward); //Converts the data to be used in 3D space (changing y for z)
         transform.Translate(Time.deltaTime * speed * moveVector.x * Vector3.right); //Same as above, but responsible for x axis
-        SetLook(pActions.Player.Look.ReadValue<Vector2>());
+        SetLook(pActions.Player.Look.ReadValue<Vector2>()); //Reading the 'Look' from the input system
         if (onGround)
         {
-            animator.SetFloat("VelocityX", speed*moveVector.x);
+            animator.SetFloat("VelocityX", speed*moveVector.x); //Controls animator values to run the locomotion animations
             animator.SetFloat("VelocityZ", speed*moveVector.y);
             animator.SetBool("OnGround", true);
         }
@@ -107,7 +107,7 @@ public class PlayerScript : MonoBehaviour
         }
         if(onGround == false)
         {
-            animator.SetFloat("VelocityX", 0);
+            animator.SetFloat("VelocityX", 0); //Resets the floats when in the air (not entirely necessary)
             animator.SetFloat("VelocityX", 0);
             animator.SetBool("OnGround", false);
             //pRender.material.SetColor("_Color", redColour); //Player becomes red when in the air
