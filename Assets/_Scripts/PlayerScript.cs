@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
     private Animator animator;
     public float sensitivity = 5f;
     [SerializeField, Range(0, 180)] private float viewAngleClamp = 40f;
-    private bool onGround, dJump;
+    private bool onGround, dJump, isAttacking;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform camFollowTarget;
     [SerializeField] private Transform projectilePos;
@@ -62,6 +62,8 @@ public class PlayerScript : MonoBehaviour
 
     public void Shoot()
     {
+        isAttacking = !isAttacking;
+        //if (isAttacking) weapon.StartAttack();
         Rigidbody rbBullet = Instantiate(projectile, projectilePos.position, Quaternion.identity).GetComponent<Rigidbody>();
         rbBullet.AddForce(Vector3.forward*32f,ForceMode.Impulse);
 
