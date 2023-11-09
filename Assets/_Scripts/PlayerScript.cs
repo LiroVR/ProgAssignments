@@ -9,9 +9,10 @@ public class PlayerScript : MonoBehaviour
     private Renderer pRender;
     private Vector2 moveVector, rotate;
     private Animator animator;
+    private Coroutine currentCoroutine;
     public float sensitivity = 5f;
     [SerializeField, Range(0, 180)] private float viewAngleClamp = 40f;
-    private bool onGround, dJump, isAttacking;
+    private bool onGround, dJump, isAttacking, hasntShot;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform camFollowTarget;
     [SerializeField] private Transform projectilePos;
@@ -60,13 +61,19 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    IEnumerator Shoot()
     {
         isAttacking = !isAttacking;
         //if (isAttacking) weapon.StartAttack();
-        Rigidbody rbBullet = Instantiate(projectile, projectilePos.position, Quaternion.identity).GetComponent<Rigidbody>();
-        rbBullet.AddForce(Vector3.forward*32f,ForceMode.Impulse);
-
+        //Rigidbody rbBullet = Instantiate(projectile, projectilePos.position, Quaternion.identity).GetComponent<Rigidbody>();
+        //rbBullet.AddForce(Vector3.forward*32f,ForceMode.Impulse);
+        for (int x = 0; x < 3; x++)
+        {
+            Rigidbody instantiatedProjectile = Instantiate(projectile, projectilePos.position, projectilePos.rotation).GetComponent<Rigidbody>();
+            instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 25));
+            yield return new WaitForSeconds(0.05f);
+        }
+        currentCoroutine = null;
     }
 
     public void SetLook(Vector2 direction)
@@ -106,6 +113,21 @@ public class PlayerScript : MonoBehaviour
         if (pActions.Player.Jump.triggered)
         {
             Jump();
+        }
+        if (pActions.Player.Shoot.triggered)
+        {
+            if(hasntShot)
+            {
+                if(currentCoroutine == null)
+                {
+                    currentCoroutine = StartCoroutine(Shoot());
+                }
+            }
+            hasntShot = false;
+        }
+        if (!pActions.Player.Shoot.triggered)
+        {
+            hasntShot = true;
         }
         if(onGround == false)
         {

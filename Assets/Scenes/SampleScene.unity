@@ -3153,7 +3153,7 @@ GameObject:
   - component: {fileID: 429604063}
   - component: {fileID: 429604062}
   - component: {fileID: 429604061}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3830,6 +3830,7 @@ GameObject:
   - component: {fileID: 452796719}
   - component: {fileID: 452796718}
   - component: {fileID: 452796722}
+  - component: {fileID: 452796723}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -3917,7 +3918,7 @@ Transform:
   m_GameObject: {fileID: 452796717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.221, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3938,6 +3939,33 @@ MonoBehaviour:
   lifetime: 3
   baseSpeed: 50
   contactDamage: 5
+--- !u!54 &452796723
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452796717}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &452923572
 GameObject:
   m_ObjectHideFlags: 0
@@ -4270,7 +4298,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000000015425028, y: 0.0012963236, z: -0.000000001047738}
+  m_ConnectedAnchor: {x: -0.000000002022716, y: 0.0012963236, z: -6.9849204e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: -1, z: 0}
   m_TwistLimitSpring:
@@ -9632,7 +9660,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.0018776191, z: -1.600786e-10}
+  m_ConnectedAnchor: {x: -5.820766e-11, y: 0.0018776188, z: 0.0000000021392323}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -11359,6 +11387,69 @@ Transform:
   m_Children:
   - {fileID: 501619848}
   m_Father: {fileID: 391911410}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &798313750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 798313752}
+  - component: {fileID: 798313751}
+  m_Layer: 0
+  m_Name: NavMesh Surface
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &798313751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798313750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 0.1
+  m_NavMeshData: {fileID: 23800000, guid: e157d8ae4baf9b741b0c729da824a9db, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!4 &798313752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798313750}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.283, z: 1.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &799755186
 GameObject:
@@ -13484,7 +13575,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: -1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0005269295, y: 0.0016065831, z: -0.000048102404}
+  m_ConnectedAnchor: {x: 0.0005269295, y: 0.0016065832, z: -0.000048103568}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -16699,6 +16790,7 @@ GameObject:
   - component: {fileID: 1250833934}
   - component: {fileID: 1250833933}
   - component: {fileID: 1250833932}
+  - component: {fileID: 1250833936}
   m_Layer: 0
   m_Name: Ghost3
   m_TagString: Enemy
@@ -16718,8 +16810,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d42ba6139466ed4e8376573b33db20f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 1250833936}
   pScript: {fileID: 1804673489}
   animator: {fileID: 1804673486}
+  groundlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  walkPointRange: 0
   speed: 2
   turnSpeed: 5
 --- !u!136 &1250833933
@@ -16741,7 +16838,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.12
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -16784,6 +16881,28 @@ Transform:
   - {fileID: 1304527573}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -129.983, z: 0}
+--- !u!195 &1250833936
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250833931}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.125
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 200
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1256503756
 GameObject:
   m_ObjectHideFlags: 0
@@ -21796,7 +21915,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0005629635, y: -0.00023912967, z: 0.0000054959096}
+  m_ConnectedAnchor: {x: -0.0005629635, y: -0.00023912967, z: 0.000005497976}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -21919,7 +22038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1328369946
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -21998,7 +22117,7 @@ ParentConstraint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328369943}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: -1.675}
@@ -22532,8 +22651,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364705189}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.033980954, y: 0.015857257, z: 0.000117978474, w: 0.99929667}
-  m_LocalPosition: {x: 0.5, y: 0.71439093, z: 3.082961}
+  m_LocalRotation: {x: 0.03398096, y: 0.015857222, z: 0.00011797808, w: 0.99929667}
+  m_LocalPosition: {x: 0.5, y: 0.71439093, z: -1.5050807}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22895,7 +23014,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398465238}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03398096, y: 0.015857238, z: 0.00011797814, w: 0.99929667}
+  m_LocalRotation: {x: 0.03398096, y: 0.015857222, z: 0.00011797808, w: 0.99929667}
   m_LocalPosition: {x: 0.5, y: 0.71439093, z: -1.5050807}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -23661,7 +23780,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: -1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0005269295, y: 0.0016065831, z: -0.000048102404}
+  m_ConnectedAnchor: {x: -0.0005269295, y: 0.0016065832, z: -0.000048103568}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -25056,7 +25175,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.000485505, z: -1.1641534e-10}
+  m_ConnectedAnchor: {x: 0, y: 0.000485505, z: 1.7462301e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -25339,6 +25458,7 @@ GameObject:
   - component: {fileID: 1703239703}
   - component: {fileID: 1703239702}
   - component: {fileID: 1703239701}
+  - component: {fileID: 1703239705}
   m_Layer: 0
   m_Name: Ghost2
   m_TagString: Enemy
@@ -25358,8 +25478,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d42ba6139466ed4e8376573b33db20f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 1703239705}
   pScript: {fileID: 1804673489}
   animator: {fileID: 1804673486}
+  groundlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  walkPointRange: 0
   speed: 4
   turnSpeed: 1
 --- !u!136 &1703239702
@@ -25381,7 +25506,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.12
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -25424,6 +25549,28 @@ Transform:
   - {fileID: 1742103444}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1703239705
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703239700}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.125
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 200
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1723999644
 GameObject:
   m_ObjectHideFlags: 0
@@ -30393,7 +30540,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000001004082, y: 0.0012963231, z: -2.9103833e-10}
+  m_ConnectedAnchor: {x: 0.0000000014842951, y: 0.001296323, z: -5.820767e-11}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: -1, z: 0}
   m_TwistLimitSpring:
@@ -34591,8 +34738,8 @@ MonoBehaviour:
   viewAngleClamp: 40
   playerCamera: {fileID: 963194227}
   camFollowTarget: {fileID: 254992012}
-  projectilePos: {fileID: 0}
-  projectile: {fileID: 0}
+  projectilePos: {fileID: 1213733370}
+  projectile: {fileID: 452796717}
 --- !u!114 &1804673490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35144,7 +35291,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0005629635, y: -0.00023912874, z: 0.0000054959096}
+  m_ConnectedAnchor: {x: 0.0005629635, y: -0.00023912874, z: 0.000005497976}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -35516,7 +35663,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 5.820766e-11, y: 0.0018776192, z: 4.36578e-11}
+  m_ConnectedAnchor: {x: 5.820766e-11, y: 0.0018776192, z: -0.0000000013533918}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -37819,7 +37966,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 2.123945e-18, y: 0.0021889494, z: -0.00003814658}
+  m_ConnectedAnchor: {x: -3.0845679e-18, y: 0.0021889496, z: -0.00003814821}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -39406,6 +39553,7 @@ GameObject:
   - component: {fileID: 1641344646283015692}
   - component: {fileID: 1641344646283015694}
   - component: {fileID: 1641344646283015693}
+  - component: {fileID: 1641344646283015695}
   m_Layer: 0
   m_Name: Ghost1
   m_TagString: Enemy
@@ -42007,8 +42155,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d42ba6139466ed4e8376573b33db20f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 1641344646283015695}
   pScript: {fileID: 1804673489}
   animator: {fileID: 1804673486}
+  groundlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  walkPointRange: 0
   speed: 3
   turnSpeed: 3
 --- !u!136 &1641344646283015694
@@ -42030,10 +42183,32 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.12
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!195 &1641344646283015695
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641344646273647742}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.125
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 200
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!137 &1641344646287313102
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -42291,3 +42466,4 @@ SceneRoots:
   - {fileID: 1703239704}
   - {fileID: 1250833935}
   - {fileID: 452796721}
+  - {fileID: 798313752}
