@@ -9,13 +9,15 @@ public class PlayerScript : MonoBehaviour
     private Renderer pRender;
     private Vector2 moveVector, rotate;
     private Animator animator;
+    private Coroutine currentCoroutine;
     public float sensitivity = 5f;
     [SerializeField, Range(0, 180)] private float viewAngleClamp = 40f;
-    private bool onGround, dJump, isAttacking;
+    private bool onGround, dJump, isAttacking, hasntShot, weaponShootToggle;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform camFollowTarget;
     [SerializeField] private Transform projectilePos;
-    [SerializeField] private GameObject projectile;
+    //[SerializeField] private GameObject projectile, shootAudio;
+    [SerializeField] private WeaponBase myWeapon;
 
     Color redColour = new Color(1.0f, 0.0f, 0.0f, 1.0f);
     Color greenColour = new Color(0.0f, 1.0f, 0.0f, 1.0f);
@@ -60,13 +62,39 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    private void Shoot()
     {
         isAttacking = !isAttacking;
         //if (isAttacking) weapon.StartAttack();
-        Rigidbody rbBullet = Instantiate(projectile, projectilePos.position, Quaternion.identity).GetComponent<Rigidbody>();
-        rbBullet.AddForce(Vector3.forward*32f,ForceMode.Impulse);
-
+        //Rigidbody rbBullet = Instantiate(projectile, projectilePos.position, Quaternion.identity).GetComponent<Rigidbody>();
+        //rbBullet.AddForce(Vector3.forward*32f,ForceMode.Impulse);
+        //for (int x = 0; x < 3; x++)
+        //{
+            //shootAudio.gameObject.SetActive(true);
+            //Rigidbody instantiatedProjectile = Instantiate(projectile, projectilePos.position, projectilePos.rotation).GetComponent<Rigidbody>();
+            //instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 25));
+            //instantiatedProjectile.AddForce(transform.TransformDirection(new Vector3(0, 0, 1)) * 50,ForceMode.Impulse);
+            //yield return new WaitForSeconds(0.05f);
+        //}
+        weaponShootToggle = !weaponShootToggle;
+        //Debug.Log("In Shoot");
+        if (weaponShootToggle)
+        {
+            //shootAudio.gameObject.SetActive(true);
+            //Debug.Log("Attempted Shooting");
+            myWeapon.StartShooting();
+        }
+        else
+        {
+            //shootAudio.gameObject.SetActive(false);
+            myWeapon.StopShooting();
+        }
+        
+        //Rigidbody instantiatedProjectile = Instantiate(projectile, projectilePos.position, projectilePos.rotation).GetComponent<Rigidbody>();
+        //instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 25));
+        //instantiatedProjectile.AddForce(transform.TransformDirection(new Vector3(0, 0, 1)) * 50,ForceMode.Impulse);
+        //yield return new WaitForSeconds(1f);
+        //currentCoroutine = null;
     }
 
     public void SetLook(Vector2 direction)
@@ -107,6 +135,23 @@ public class PlayerScript : MonoBehaviour
         {
             Jump();
         }
+        if (pActions.Player.Shoot.triggered)
+        {
+            //if(hasntShot)
+            //{
+                //if(currentCoroutine == null)
+                //{
+                    //currentCoroutine = StartCoroutine(Shoot());
+                //}
+            //}
+            Shoot();
+            //hasntShot = false;
+        }
+        //if (!pActions.Player.Shoot.triggered)
+        //{
+            //hasntShot = true;
+            //shootAudio.gameObject.SetActive(false);
+        //}
         if(onGround == false)
         {
             animator.SetFloat("VelocityX", 0); //Resets the floats when in the air (not entirely necessary)

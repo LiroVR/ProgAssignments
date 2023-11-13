@@ -6,6 +6,7 @@ public class Seeker : MonoBehaviour
 {
 
     private GameObject player;
+    [SerializeField] GameObject boowomp;
     public PlayerScript pScript;
     public Animator animator;
     private Collider enemyCollider;
@@ -28,6 +29,7 @@ public class Seeker : MonoBehaviour
           pScript.sensitivity = 0f;
           animator.SetBool("Dead", true);
           enemyCollider.enabled = false;
+          boowomp.gameObject.SetActive(true);
         }
     }
 
