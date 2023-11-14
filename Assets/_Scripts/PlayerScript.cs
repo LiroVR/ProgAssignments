@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -12,11 +14,14 @@ public class PlayerScript : MonoBehaviour
     private Coroutine currentCoroutine;
     public float sensitivity = 5f;
     [SerializeField, Range(0, 180)] private float viewAngleClamp = 40f;
-    private bool onGround, dJump, isAttacking, hasntShot;
+    private bool onGround, dJump, isAttacking, hasntShot, weaponShootToggle;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform camFollowTarget;
     [SerializeField] private Transform projectilePos;
-    [SerializeField] private GameObject projectile;
+    //[SerializeField] private GameObject projectile, shootAudio;
+    [SerializeField] private WeaponBase myWeapon;
+    [SerializeField] private ProjectileWeapon pWeapon;
+    [SerializeField] private TextMeshProUGUI ammoTracker;
 
     Color redColour = new Color(1.0f, 0.0f, 0.0f, 1.0f);
     Color greenColour = new Color(0.0f, 1.0f, 0.0f, 1.0f);
@@ -29,6 +34,7 @@ public class PlayerScript : MonoBehaviour
         rigiBoy = GetComponent<Rigidbody>(); //Fetches the rigidbody
         animator = GetComponent<Animator>(); //Fetches the animator
         pRender = GameObject.Find("Player").GetComponent<Renderer>(); //Sets the renderer target to the player
+        ammoTracker.text = ("Ammo: 30/" + pWeapon.reserveAmmo.ToString());
     }
 
     void OnEnable()
@@ -61,19 +67,39 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    IEnumerator Shoot()
+    private void Shoot()
     {
         isAttacking = !isAttacking;
         //if (isAttacking) weapon.StartAttack();
         //Rigidbody rbBullet = Instantiate(projectile, projectilePos.position, Quaternion.identity).GetComponent<Rigidbody>();
         //rbBullet.AddForce(Vector3.forward*32f,ForceMode.Impulse);
-        for (int x = 0; x < 3; x++)
+        //for (int x = 0; x < 3; x++)
+        //{
+            //shootAudio.gameObject.SetActive(true);
+            //Rigidbody instantiatedProjectile = Instantiate(projectile, projectilePos.position, projectilePos.rotation).GetComponent<Rigidbody>();
+            //instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 25));
+            //instantiatedProjectile.AddForce(transform.TransformDirection(new Vector3(0, 0, 1)) * 50,ForceMode.Impulse);
+            //yield return new WaitForSeconds(0.05f);
+        //}
+        weaponShootToggle = !weaponShootToggle;
+        //Debug.Log("In Shoot");
+        if (weaponShootToggle)
         {
-            Rigidbody instantiatedProjectile = Instantiate(projectile, projectilePos.position, projectilePos.rotation).GetComponent<Rigidbody>();
-            instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 25));
-            yield return new WaitForSeconds(0.05f);
+            //shootAudio.gameObject.SetActive(true);
+            //Debug.Log("Attempted Shooting");
+            myWeapon.StartShooting();
         }
-        currentCoroutine = null;
+        else
+        {
+            //shootAudio.gameObject.SetActive(false);
+            myWeapon.StopShooting();
+        }
+        
+        //Rigidbody instantiatedProjectile = Instantiate(projectile, projectilePos.position, projectilePos.rotation).GetComponent<Rigidbody>();
+        //instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 25));
+        //instantiatedProjectile.AddForce(transform.TransformDirection(new Vector3(0, 0, 1)) * 50,ForceMode.Impulse);
+        //yield return new WaitForSeconds(1f);
+        //currentCoroutine = null;
     }
 
     public void SetLook(Vector2 direction)
@@ -114,21 +140,37 @@ public class PlayerScript : MonoBehaviour
         {
             Jump();
         }
+        if (pActions.Player.Reload.triggered)
+        {
+            if(pWeapon.reserveAmmo >= (pWeapon.ammoCapacity - pWeapon.remainingAmmo))
+            {
+                pWeapon.reserveAmmo -= (pWeapon.ammoCapacity - pWeapon.remainingAmmo);
+                pWeapon.remainingAmmo = pWeapon.ammoCapacity;
+            }
+            else
+            {
+                pWeapon.remainingAmmo += pWeapon.reserveAmmo;
+                pWeapon.reserveAmmo = 0;
+            }
+            ammoTracker.text = ("Ammo: " + pWeapon.remainingAmmo.ToString() + "/" + pWeapon.reserveAmmo.ToString());
+        }
         if (pActions.Player.Shoot.triggered)
         {
-            if(hasntShot)
-            {
-                if(currentCoroutine == null)
-                {
-                    currentCoroutine = StartCoroutine(Shoot());
-                }
-            }
-            hasntShot = false;
+            //if(hasntShot)
+            //{
+                //if(currentCoroutine == null)
+                //{
+                    //currentCoroutine = StartCoroutine(Shoot());
+                //}
+            //}
+            Shoot();
+            //hasntShot = false;
         }
-        if (!pActions.Player.Shoot.triggered)
-        {
-            hasntShot = true;
-        }
+        //if (!pActions.Player.Shoot.triggered)
+        //{
+            //hasntShot = true;
+            //shootAudio.gameObject.SetActive(false);
+        //}
         if(onGround == false)
         {
             animator.SetFloat("VelocityX", 0); //Resets the floats when in the air (not entirely necessary)

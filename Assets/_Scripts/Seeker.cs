@@ -1,20 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Seeker : MonoBehaviour
 {
 
     private GameObject player;
-    public NavMeshAgent agent;
+    [SerializeField] GameObject boowomp;
     public PlayerScript pScript;
     public Animator animator;
-    public LayerMask groundlayer;
     private Collider enemyCollider;
-    private Vector3 walkPoint;
-    public float walkPointRange;
-    private bool walkpointset;
     [SerializeField] private float speed = 2f;
     [SerializeField] private float turnSpeed = 1f;
     // Start is called before the first frame update
@@ -34,6 +29,7 @@ public class Seeker : MonoBehaviour
           pScript.sensitivity = 0f;
           animator.SetBool("Dead", true);
           enemyCollider.enabled = false;
+          boowomp.gameObject.SetActive(true);
         }
     }
 
@@ -50,31 +46,5 @@ public class Seeker : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * turnSpeed);
     }
 
-    void Patrol()
-    {
-        if (!walkpointset)SearchWalkPoint();
-        if(walkpointset)
-        {
-            agent.SetDestination(walkPoint);
-        }
-        Vector3 distanceWalkPoint = transform.position - walkPoint;
-
-        if(distanceWalkPoint.magnitude < 1f)
-        {
-            walkpointset = false;
-        }
-    }
-
-    void SearchWalkPoint()
-    {
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if(Physics.Raycast(walkPoint, -transform.up, 1f, groundlayer))
-        {
-            walkpointset = true;
-        }
-    }
     
 }
