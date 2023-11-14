@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private Transform projectilePos;
     //[SerializeField] private GameObject projectile, shootAudio;
     [SerializeField] private WeaponBase myWeapon;
+    [SerializeField] private ProjectileWeapon pWeapon;
+    [SerializeField] private TextMeshProUGUI ammoTracker;
 
     Color redColour = new Color(1.0f, 0.0f, 0.0f, 1.0f);
     Color greenColour = new Color(0.0f, 1.0f, 0.0f, 1.0f);
@@ -30,6 +34,7 @@ public class PlayerScript : MonoBehaviour
         rigiBoy = GetComponent<Rigidbody>(); //Fetches the rigidbody
         animator = GetComponent<Animator>(); //Fetches the animator
         pRender = GameObject.Find("Player").GetComponent<Renderer>(); //Sets the renderer target to the player
+        ammoTracker.text = ("Ammo: 30/" + pWeapon.reserveAmmo.ToString());
     }
 
     void OnEnable()
@@ -134,6 +139,20 @@ public class PlayerScript : MonoBehaviour
         if (pActions.Player.Jump.triggered)
         {
             Jump();
+        }
+        if (pActions.Player.Reload.triggered)
+        {
+            if(pWeapon.reserveAmmo >= (pWeapon.ammoCapacity - pWeapon.remainingAmmo))
+            {
+                pWeapon.reserveAmmo -= (pWeapon.ammoCapacity - pWeapon.remainingAmmo);
+                pWeapon.remainingAmmo = pWeapon.ammoCapacity;
+            }
+            else
+            {
+                pWeapon.remainingAmmo += pWeapon.reserveAmmo;
+                pWeapon.reserveAmmo = 0;
+            }
+            ammoTracker.text = ("Ammo: " + pWeapon.remainingAmmo.ToString() + "/" + pWeapon.reserveAmmo.ToString());
         }
         if (pActions.Player.Shoot.triggered)
         {

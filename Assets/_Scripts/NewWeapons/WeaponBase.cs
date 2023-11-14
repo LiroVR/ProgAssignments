@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public abstract class WeaponBase : MonoBehaviour
 {
@@ -19,12 +21,15 @@ public abstract class WeaponBase : MonoBehaviour
     public float audioDuration;
     public WaitForSeconds audioCoolDownWFS;
     public GameObject projectile, muzzleFlash;
+    public int ammoCapacity, remainingAmmo, reserveAmmo;
+    [SerializeField] private TextMeshProUGUI ammoTracker;
 
     private void Start()
     {
         _coolDownWait = new WaitForSeconds(timeBetweenAttacks);
         _coolDownEnforce = new WaitUntil(() => !_isOnCooldown);
         audioCoolDownWFS = new WaitForSeconds(audioDuration);
+        remainingAmmo = ammoCapacity;
     }
 
     public void StartShooting()
@@ -70,11 +75,16 @@ public abstract class WeaponBase : MonoBehaviour
         _currentChargeTime = 0;
         if(!CanAttack(percent)) return;
         //Debug.Log("Attacking");
-        Attack(percent);
-        StartCoroutine(CoolDownTimer());
-        if(isFullyAuto && percent >= 1)
+        if(remainingAmmo > 0)
         {
-            _currentFireTimer = StartCoroutine(ReFireTimer());
+            Attack(percent);
+            remainingAmmo -= 1;
+            ammoTracker.text = ("Ammo: " + remainingAmmo.ToString() + "/" + reserveAmmo.ToString());
+            StartCoroutine(CoolDownTimer());
+            if(isFullyAuto && percent >= 1)
+            {
+                _currentFireTimer = StartCoroutine(ReFireTimer());
+            }
         }
     }
 
