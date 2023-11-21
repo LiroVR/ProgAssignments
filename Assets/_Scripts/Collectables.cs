@@ -13,7 +13,6 @@ public class Collectables : MonoBehaviour
     {
         this.nameCollectable = name;
         this.score = scoreValue;
-
     }
 
     public void UpdateScore()
