@@ -21,8 +21,16 @@ public abstract class WeaponBase : MonoBehaviour
     public float audioDuration;
     public WaitForSeconds audioCoolDownWFS;
     public GameObject projectile, muzzleFlash;
-    public int ammoCapacity, remainingAmmo, reserveAmmo;
+    public int ammoCapacity, remainingAmmo, reserveAmmo, burstFired, burstSize;
     [SerializeField] private TextMeshProUGUI ammoTracker;
+    [SerializeField] public EFireMode fireMode;
+
+    public enum EFireMode
+    {
+        Single,
+        Burst,
+        Automatic
+    }
 
     private void Start()
     {
@@ -30,6 +38,7 @@ public abstract class WeaponBase : MonoBehaviour
         _coolDownEnforce = new WaitUntil(() => !_isOnCooldown);
         audioCoolDownWFS = new WaitForSeconds(audioDuration);
         remainingAmmo = ammoCapacity;
+        burstFired = 0;
     }
 
     public void StartShooting()
@@ -81,7 +90,7 @@ public abstract class WeaponBase : MonoBehaviour
             remainingAmmo -= 1;
             ammoTracker.text = ("Ammo: " + remainingAmmo.ToString() + "/" + reserveAmmo.ToString());
             StartCoroutine(CoolDownTimer());
-            if(isFullyAuto && percent >= 1)
+            if(fireMode == EFireMode.Automatic && percent >= 1)
             {
                 _currentFireTimer = StartCoroutine(ReFireTimer());
             }

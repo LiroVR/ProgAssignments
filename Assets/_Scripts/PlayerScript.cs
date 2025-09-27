@@ -7,6 +7,7 @@ using TMPro;
 public class PlayerScript : MonoBehaviour
 {
     public float speed, jumpStrength;
+    private int fireModeInt;
     private Rigidbody rigiBoy;
     private Renderer pRender;
     private Vector2 moveVector, rotate;
@@ -21,7 +22,7 @@ public class PlayerScript : MonoBehaviour
     //[SerializeField] private GameObject projectile, shootAudio;
     [SerializeField] private WeaponBase myWeapon;
     [SerializeField] private ProjectileWeapon pWeapon;
-    [SerializeField] private TextMeshProUGUI ammoTracker;
+    [SerializeField] private TextMeshProUGUI ammoTracker, fireModeText;
 
     Color redColour = new Color(1.0f, 0.0f, 0.0f, 1.0f);
     Color greenColour = new Color(0.0f, 1.0f, 0.0f, 1.0f);
@@ -35,6 +36,7 @@ public class PlayerScript : MonoBehaviour
         animator = GetComponent<Animator>(); //Fetches the animator
         pRender = GameObject.Find("Player").GetComponent<Renderer>(); //Sets the renderer target to the player
         ammoTracker.text = ("Ammo: 30/" + pWeapon.reserveAmmo.ToString());
+        fireModeInt = 0;
     }
 
     void OnEnable()
@@ -87,7 +89,19 @@ public class PlayerScript : MonoBehaviour
         {
             //shootAudio.gameObject.SetActive(true);
             //Debug.Log("Attempted Shooting");
-            myWeapon.StartShooting();
+            if(myWeapon.fireMode == WeaponBase.EFireMode.Burst && myWeapon.burstFired < myWeapon.burstSize)
+            {
+                while(myWeapon.burstFired < myWeapon.burstSize)
+                {
+                    myWeapon.StartShooting();
+                    myWeapon.burstFired += 1;
+                }
+            }
+            else
+            {
+                myWeapon.StartShooting();
+            }
+            
         }
         else
         {
@@ -166,11 +180,30 @@ public class PlayerScript : MonoBehaviour
             Shoot();
             //hasntShot = false;
         }
-        //if (!pActions.Player.Shoot.triggered)
-        //{
-            //hasntShot = true;
-            //shootAudio.gameObject.SetActive(false);
-        //}
+        if (!pActions.Player.Shoot.triggered && myWeapon.burstFired >= myWeapon.burstSize)
+        {
+            myWeapon.burstFired = 0;
+        }
+        if (pActions.Player.FireMode.triggered)
+        {
+            fireModeInt += 1;
+            if(fireModeInt == 0 || fireModeInt > 2)
+            {
+                fireModeInt = 0;
+                myWeapon.fireMode = WeaponBase.EFireMode.Single;
+                fireModeText.text = ("Mode: Single");
+            }
+            else if (fireModeInt == 1)
+            {
+                myWeapon.fireMode = WeaponBase.EFireMode.Burst;
+                fireModeText.text = ("Mode: Burst");
+            }
+            else
+            {
+                myWeapon.fireMode = WeaponBase.EFireMode.Automatic;
+                fireModeText.text = ("Mode: Auto");
+            }
+        }
         if(onGround == false)
         {
             animator.SetFloat("VelocityX", 0); //Resets the floats when in the air (not entirely necessary)
