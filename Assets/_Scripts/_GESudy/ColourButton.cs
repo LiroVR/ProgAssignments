@@ -6,13 +6,14 @@ public class ColourButton : MonoBehaviour
 {
     private CubeController cubeController;
     private GEInvoker invoker;
-    private Command toggleRedCommand, toggleBlueCommand, toggleGreenCommand;
+    private GECommand toggleRedCommand, toggleBlueCommand, toggleGreenCommand;
     void Start()
     {
+        cubeController = GameObject.Find("ColourCube").GetComponent<CubeController>();
+        invoker = GameObject.Find("ColourCube").GetComponent<GEInvoker>();
         toggleRedCommand = new ToggleRed(cubeController);
         toggleBlueCommand = new ToggleBlue(cubeController);
         toggleGreenCommand = new ToggleGreen(cubeController);
-        invoker = findObjectOfType<GEInvoker>();
     }
 
     public void RedButton()

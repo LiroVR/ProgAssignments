@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToggleRed : GECommand
+public class ResetColor : GECommand
 {
     private CubeController cubeController;
-    public ToggleRed(CubeController controller)
+    public ResetColor(CubeController controller)
     {
         cubeController = controller;
     }
     public override void Execute()
     {
-        cubeController.ToggleRed();
+        cubeController.ResetColor();
     }
     
 }

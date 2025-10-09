@@ -5,6 +5,5 @@ using UnityEngine;
 public abstract class GECommand
 {
     public abstract void Execute();
-    public abstract void Undo();
 
 }
